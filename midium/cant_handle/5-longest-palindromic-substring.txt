@@ -1,0 +1,22 @@
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        p = [[False]*len(s) for _ in range(len(s))]
+        max_s, max_e = 0, 0
+        
+        for i in range(len(s)):
+            start, end = i,i
+            while start >= 0:
+                if start == end:
+                    p[start][end] = True
+                elif end == (start +1):
+                    p[start][end] = (s[start] == s[end])
+                else:
+                    p[start][end] = (p[start+1][end-1] and s[start] == s[end])
+                
+                if p[start][end] == True and (end - start > max_e - max_s):
+                    max_e = end
+                    max_s = start
+                    
+                start -= 1
+        
+        return s[max_s:max_e+1]
